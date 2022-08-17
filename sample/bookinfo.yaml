@@ -25,24 +25,6 @@
 #   kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml -l account=reviews # reviews ServiceAccount
 #   kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml -l app=reviews,version=v3 # reviews-v3 Deployment
 ##################################################################################################
-
-##################################################################################################
-# Details service
-##################################################################################################
-apiVersion: v1
-kind: Service
-metadata:
-  name: details
-  labels:
-    app: details
-    service: details
-spec:
-  ports:
-  - port: 9080
-    name: http
-  selector:
-    app: details
----
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -79,23 +61,6 @@ spec:
         securityContext:
           runAsUser: 1000
 ---
-##################################################################################################
-# Ratings service
-##################################################################################################
-apiVersion: v1
-kind: Service
-metadata:
-  name: ratings
-  labels:
-    app: ratings
-    service: ratings
-spec:
-  ports:
-  - port: 9080
-    name: http
-  selector:
-    app: ratings
----
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -131,23 +96,6 @@ spec:
         - containerPort: 9080
         securityContext:
           runAsUser: 1000
----
-##################################################################################################
-# Reviews service
-##################################################################################################
-apiVersion: v1
-kind: Service
-metadata:
-  name: reviews
-  labels:
-    app: reviews
-    service: reviews
-spec:
-  ports:
-  - port: 9080
-    name: http
-  selector:
-    app: reviews
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -281,23 +229,6 @@ spec:
         emptyDir: {}
       - name: tmp
         emptyDir: {}
----
-##################################################################################################
-# Productpage services
-##################################################################################################
-apiVersion: v1
-kind: Service
-metadata:
-  name: productpage
-  labels:
-    app: productpage
-    service: productpage
-spec:
-  ports:
-  - port: 9080
-    name: http
-  selector:
-    app: productpage
 ---
 apiVersion: v1
 kind: ServiceAccount

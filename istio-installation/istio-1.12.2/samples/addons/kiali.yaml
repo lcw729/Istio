@@ -405,6 +405,7 @@ metadata:
     app.kubernetes.io/part-of: "kiali"
   annotations:
 spec:
+  type: NodePort
   ports:
   - name: http
     protocol: TCP
@@ -412,6 +413,7 @@ spec:
   - name: http-metrics
     protocol: TCP
     port: 9090
+    nodePort: 30300
   selector:
     app.kubernetes.io/name: kiali
     app.kubernetes.io/instance: kiali

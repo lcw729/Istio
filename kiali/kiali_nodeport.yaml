@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kiali-svc
+  namespace: istio-system
+spec:
+  selector:
+    app.kubernetes.io/instance: kiali
+    app.kubernetes.io/name: kiali
+  type: NodePort
+  ports:
+  - nodePort: 30004
+    port: 80
+    targetPort: 20001
