@@ -28,8 +28,16 @@ spec:
       meshID: mesh1
       multiCluster:
         clusterName: cluster2
-      network: network1
+      network: network2
       remotePilotAddress: ${DISCOVERY_ADDRESS}
 EOF
  
 istioctl install --context="${CTX_CLUSTER2}" -y -f cluster2.yaml
+
+# Install the east-west gateway in cluster2
+cluster2/gen-eastwest-gateway.sh \
+    --mesh mesh1 --cluster cluster2 --network network2 | \
+    istioctl --context="${CTX_CLUSTER2}" install -y -f -
+
+# Expose services in cluster2
+kubectl --context="${CTX_CLUSTER2}" apply -n istio-system -f cluster2/expose-services.yaml

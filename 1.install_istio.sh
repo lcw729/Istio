@@ -7,4 +7,4 @@ istioctl install --set profile=demo -y
 kubectl label namespace default istio-injection=enabled
 
 # Deploy the sample application
-kubectl apply -f sample/
+#kubectl apply -f sample/

@@ -7,7 +7,7 @@ spec:
   selector:
     app.kubernetes.io/instance: kiali
     app.kubernetes.io/name: kiali
-  type: NodePort
+  type: LoadBalancer
   ports:
   - nodePort: 30004
     port: 80
