@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-server-v1
+  labels:
+    app: hello
+    version: v1
+spec:
+  containers:
+  - image: docker.io/honester/hello-server:v1
+    imagePullPolicy: IfNotPresent
+    name: hello-server-v1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-server-v2
+  labels:
+    app: hello
+    version: v2
+spec:
+  containers:
+  - image: docker.io/honester/hello-server:v2
+    imagePullPolicy: IfNotPresent
+    name: hello-server-v2
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: httpbin
+  labels:
+    app: httpbin
+spec:
+  containers:
+  - image: docker.io/honester/httpbin:latest
+    imagePullPolicy: IfNotPresent
+    name: httpbin

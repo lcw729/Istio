@@ -6,7 +6,19 @@ metadata:
 spec:
   addresses:
   - 10.0.5.96-10.0.5.99
-  autoAssign: true
+  autoAssign: false
+#  - 192.168.9.1-192.168.9.5
+#  - fc00:f853:0ccd:e799::/124
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: default2
+  namespace: metallb-system
+spec:
+  addresses:
+  - 115.94.141.62-115.94.141.62
+  autoAssign: false
 #  - 192.168.9.1-192.168.9.5
 #  - fc00:f853:0ccd:e799::/124
 ---

@@ -1,5 +1,32 @@
 #!/bin/bash
-CTX_CLUSTER1=$1
+CTX_CLUSTER1="master"
+
+istioctl x uninstall --purge -y --context "${CTX_CLUSTER1}"
+kubectl --context="${CTX_CLUSTER1}" create namespace istio-system
+
+rm  -r /root/certs/root/
+mkdir -p /root/certs/root/
+pushd /root/certs/root/
+pushd /root/go/src/Hybrid_LCW/test/Istio/istio-installation/istio-1.12.2/tools/certs/
+
+make -f  Makefile.selfsigned.mk root-ca
+make -f Makefile.selfsigned.mk hcp-cacerts
+
+mv root-* /root/certs/root/
+
+rm -r /root/certs/hcp
+mv hcp /root/certs
+
+popd
+
+kubectl delete secret cacerts -n istio-system
+kubectl create secret generic cacerts -n istio-system \
+      --from-file=../hcp/ca-cert.pem \
+      --from-file=../hcp/ca-key.pem \
+      --from-file=../hcp/root-cert.pem \
+      --from-file=../hcp/cert-chain.pem
+popd
+
 
 # Set the default network for cluster1
 kubectl --context="${CTX_CLUSTER1}" get namespace istio-system

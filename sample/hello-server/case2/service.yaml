@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-hello-v1
+  labels:
+    app: hello
+spec:
+  selector:
+    app: hello
+    version: v1
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-hello-v2
+  labels:
+    app: hello
+spec:
+  selector:
+    app: hello
+    version: v2
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080

@@ -1,3 +1,3 @@
 #!/bin/bash
-istioctl x uninstall --purge
-kubectl delete namespace istio-system
+istioctl x uninstall --purge --context $1
+kubectl delete namespace istio-system --context $1

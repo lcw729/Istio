@@ -6,5 +6,5 @@ spec:
       meshID: mesh1
       multiCluster:
         clusterName: cluster2
-      network: network2
-      remotePilotAddress: 10.0.5.97
+      network: network1
+      remotePilotAddress: 10.0.5.96
