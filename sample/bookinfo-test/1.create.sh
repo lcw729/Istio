@@ -1,5 +1,11 @@
 #!/bin/bash
+
+kubectl label namespace default istio-injection=enabled --context master
+kubectl label namespace default istio-injection=enabled --context cluster1-master
+kubectl label namespace default istio-injection=enabled --context eks-keti-cluster1
+
 kubectl create -f bookinfo-gateway.yaml --context master
+kubectl create -f destination-rule.yaml --context master
 
 # test 1
 kubectl create -f productpage.yaml --context eks-keti-cluster1

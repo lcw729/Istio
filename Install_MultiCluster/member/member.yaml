@@ -8,10 +8,11 @@ spec:
   profile: remote
   values:
     global:
-      meshID: mesh1
+      meshID: mesh-master
       multiCluster:
-        clusterName: cluster1
-      network: network1
+        clusterName: eks-keti-cluster1
+      network: network-eks-keti-cluster1
+      remotePilotAddress: 115.94.141.62
   components:
     ingressGateways:
       - name: istio-ingressgateway

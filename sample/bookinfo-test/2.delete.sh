@@ -1,5 +1,6 @@
 #!/bin/bash
 kubectl delete -f bookinfo-gateway.yaml --context master
+kubectl delete -f destination-rule.yaml --context master
 
 # test 1
 kubectl delete -f productpage.yaml --context eks-keti-cluster1
