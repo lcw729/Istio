@@ -33,7 +33,7 @@ kubectl --context="${CTX}" get namespace istio-system
 kubectl --context="${CTX}" label namespace istio-system topology.istio.io/network=network-$CTX --overwrite
 
 # hcp에 대한 Istio configuration 을 만듭니다.
-cat <<EOF > $CTX.yaml
+cat <<EOF > ./master/$CTX.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -83,7 +83,7 @@ spec:
 EOF
 
 # hcp에 configuration 적용
-istioctl install --context=$CTX -f $CTX.yaml -y
+istioctl install --context=$CTX -f ./master/$CTX.yaml -y
 
 # Install the east-west gateway in master
 ./master/gen-eastwest-gateway.sh \

@@ -8,7 +8,7 @@ spec:
   profile: remote
   values:
     global:
-      meshID: mesh1
+      meshID: mesh-master
       multiCluster:
         clusterName: cluster1
       network: network1
