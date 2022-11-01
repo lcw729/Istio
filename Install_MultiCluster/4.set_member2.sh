@@ -1,6 +1,6 @@
 #!/bin/bash
 CTX_MASTER="master"
-CTX="cluster-master1"
+CTX="eks-keti-cluster1"
 
 # uninstall istio
 istioctl x uninstall --purge -y --context "${CTX}"
@@ -32,8 +32,7 @@ kubectl get secret -n istio-system --context $CTX_MASTER cacerts -o yaml | kubec
 # Set the default network for member
 kubectl --context="${CTX}" create namespace istio-system
 kubectl --context="${CTX}" get namespace istio-system && \
-kubectl --context="${CTX}" annotate namespace istio-system topology.istio.io/controlPlaneClusters="${CTX_MASTER}"
-kubectl --context="${CTX}" label namespace istio-system topology.istio.io/network=network-${CTX} --overwrite
+kubectl --context="${CTX}" label namespace istio-system topology.istio.io/network=network-$CTX --overwrite
 
 # Enable API Server Access to member
 istioctl x create-remote-secret \
@@ -104,7 +103,7 @@ istioctl install --context="${CTX}" -y -f member/member.yaml
 # Install the east-west gateway in cluster3
 member/gen-eastwest-gateway.sh \
     --mesh mesh-${CTX_MASTER}  --cluster $CTX --network network-$CTX | \
-    istioctl --context=${CTX} install -y -f -
+    istioctl --context=$CTX install -y -f -
 
 # East-west 게이트웨이에 외부 IP 주소가 할당 될 때까지 기다립니다.
 for ((;;))
@@ -117,10 +116,5 @@ do
         sleep 1
 done
 
-# Expose services in cluster3
+# # Expose services in cluster3
 kubectl --context="${CTX}" apply -n istio-system -f member/expose-services.yaml
-
-# istioctl x create-remote-secret \
-#     --context="${CTX}" \
-#     --name="${CTX}" | \
-#     kubectl apply -f - --context="${CTX_MASTER}"

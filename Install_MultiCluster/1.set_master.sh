@@ -82,8 +82,10 @@ spec:
                 targetPort: 15443
 EOF
 
-# hcp에 configuration 적용
-istioctl install --context=$CTX -f ./master/$CTX.yaml -y
+istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX}" -f ./master/$CTX.yaml -y
+
+# # hcp에 configuration 적용
+# istioctl install --context=$CTX -f ./master/$CTX.yaml -y
 
 # Install the east-west gateway in master
 ./master/gen-eastwest-gateway.sh \

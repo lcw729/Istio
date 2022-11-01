@@ -114,7 +114,7 @@ $IOP
               - name: status-port
                 port: 15021
                 targetPort: 15021
-                nodePort: 32021
+                nodePort: 32022
               - name: tls
                 port: 15443
                 targetPort: 15443
