@@ -12,6 +12,22 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
+    - "a1a16c81252f94663b77972dc1a5acb6-836277031.ap-northeast-2.elb.amazonaws.com"
+    - "a2745cd45b795432f9a1a9079cbd5e2e-1574078245.ap-northeast-2.elb.amazonaws.com"
+    # tls:
+    #   httpsRedirect: true
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE # enables HTTPS on this port
+      serverCertificate: /root/hcp/ca-cert.pem
+      privateKey: /root/hcp/ca-key.pem
+    hosts:
+    - "*"
+    - "a1a16c81252f94663b77972dc1a5acb6-836277031.ap-northeast-2.elb.amazonaws.com"
+    - "a2745cd45b795432f9a1a9079cbd5e2e-1574078245.ap-northeast-2.elb.amazonaws.com"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService

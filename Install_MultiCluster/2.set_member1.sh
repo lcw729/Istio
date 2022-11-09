@@ -1,33 +1,33 @@
 #!/bin/bash
 CTX_MASTER="master"
-CTX="cluster-master1"
+CTX="cluster1-master"
 
 # uninstall istio
 istioctl x uninstall --purge -y --context "${CTX}"
 kubectl --context="${CTX}" create namespace istio-system
 kubectl get secret -n istio-system --context $CTX_MASTER cacerts -o yaml | kubectl apply -n istio-system --context $CTX -f -
 
-# pushd /root/certs/
-# pushd /root/go/src/Hybrid_LCW/test/Istio/istio-installation/istio-1.12.2/tools/certs/
+pushd /root/certs/
+pushd /root/go/src/Hybrid_LCW/test/Istio/istio-installation/istio-1.12.2/tools/certs/
 
-# cp  -r /root/certs/root/* .
-# make -f Makefile.selfsigned.mk ${CTX}-cacerts
-# rm root-*
+cp  -r /root/certs/root/* .
+make -f Makefile.selfsigned.mk ${CTX}-cacerts
+rm root-*
 
-# rm -r /root/certs/${CTX}
-# mv ${CTX} /root/certs
+rm -r /root/certs/${CTX}
+mv ${CTX} /root/certs
 
-# popd
+popd
 
-# # Enable API Server Access to $CTX
-# kubectl delete secret cacerts -n istio-system --context="${CTX}"
-# kubectl create secret generic cacerts -n istio-system \
-#       --from-file=./${CTX}/ca-cert.pem \
-#       --from-file=./${CTX}/ca-key.pem \
-#       --from-file=./${CTX}/root-cert.pem \
-#       --from-file=./${CTX}/cert-chain.pem\
-#       --context="${CTX}"
-# popd
+# Enable API Server Access to $CTX
+kubectl delete secret cacerts -n istio-system --context="${CTX}"
+kubectl create secret generic cacerts -n istio-system \
+      --from-file=./${CTX}/ca-cert.pem \
+      --from-file=./${CTX}/ca-key.pem \
+      --from-file=./${CTX}/root-cert.pem \
+      --from-file=./${CTX}/cert-chain.pem\
+      --context="${CTX}"
+popd
 
 # Set the default network for member
 kubectl --context="${CTX}" create namespace istio-system

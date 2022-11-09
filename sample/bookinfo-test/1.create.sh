@@ -6,7 +6,8 @@ kubectl label namespace default istio-injection=enabled --context eks-keti-clust
 
 kubectl create -f bookinfo-gateway.yaml --context master
 kubectl create -f destination-rule.yaml --context master
-
+kubectl create -f bookinfo-gateway.yaml --context eks-keti-cluster1
+kubectl create -f destination-rule.yaml --context eks-keti-cluster1
 # test 1
 kubectl create -f productpage.yaml --context eks-keti-cluster1
 kubectl create -f details.yaml --context eks-keti-cluster1
