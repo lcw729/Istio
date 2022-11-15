@@ -8,7 +8,7 @@ kubectl --context="${CTX}" create namespace istio-system
 kubectl get secret -n istio-system --context $CTX_MASTER cacerts -o yaml | kubectl apply -n istio-system --context $CTX -f -
 
 pushd /root/certs/
-pushd /root/go/src/Hybrid_LCW/test/Istio/istio-installation/istio-1.12.2/tools/certs/
+pushd /root/workspace/cra/istio-1.13.2/tools/certs/
 
 cp  -r /root/certs/root/* .
 make -f Makefile.selfsigned.mk ${CTX}-cacerts
@@ -35,7 +35,14 @@ kubectl --context="${CTX}" get namespace istio-system && \
 kubectl --context="${CTX}" annotate namespace istio-system topology.istio.io/controlPlaneClusters="${CTX_MASTER}"
 kubectl --context="${CTX}" label namespace istio-system topology.istio.io/network=network-${CTX} --overwrite
 
+kubectl delete secret istio-remote-secret-${CTX} -n istio-system --context "${CTX_MASTER}"
+
 # Enable API Server Access to member
+istioctl x create-remote-secret \
+    --context="${CTX}" \
+    --name="${CTX}" | \
+    kubectl apply -f - --context="${CTX_MASTER}"
+    
 istioctl x create-remote-secret \
     --context="${CTX}" \
     --name="${CTX}" | \
@@ -120,7 +127,7 @@ done
 # Expose services in cluster3
 kubectl --context="${CTX}" apply -n istio-system -f member/expose-services.yaml
 
-# istioctl x create-remote-secret \
-#     --context="${CTX}" \
-#     --name="${CTX}" | \
-#     kubectl apply -f - --context="${CTX_MASTER}"
+istioctl x create-remote-secret \
+    --context="${CTX}" \
+    --name="${CTX}" | \
+    kubectl apply -f - --context="${CTX_MASTER}"

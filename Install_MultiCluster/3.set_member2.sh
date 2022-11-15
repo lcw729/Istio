@@ -5,9 +5,10 @@ CTX="eks-keti-cluster1"
 # uninstall istio
 istioctl x uninstall --purge -y --context "${CTX}"
 kubectl --context="${CTX}" create namespace istio-system
+kubectl get secret -n istio-system --context $CTX_MASTER cacerts -o yaml | kubectl apply -n istio-system --context $CTX -f -
 
 pushd /root/certs/
-pushd /root/go/src/Hybrid_LCW/test/Istio/istio-installation/istio-1.12.2/tools/certs/
+pushd /root/workspace/cra/istio-1.13.2/tools/certs/
 
 cp  -r /root/certs/root/* .
 make -f Makefile.selfsigned.mk ${CTX}-cacerts
@@ -31,8 +32,16 @@ popd
 kubectl --context="${CTX}" create namespace istio-system
 kubectl --context="${CTX}" get namespace istio-system && \
 kubectl --context="${CTX}" label namespace istio-system topology.istio.io/network=network-$CTX --overwrite
+kubectl --context="${CTX}" annotate namespace istio-system topology.istio.io/controlPlaneClusters="${CTX_MASTER}"
+
+kubectl delete secret istio-remote-secret-${CTX} -n istio-system --context "${CTX_MASTER}"
 
 # Enable API Server Access to member
+istioctl x create-remote-secret \
+    --context="${CTX}" \
+    --name="${CTX}" | \
+    kubectl apply -f - --context="${CTX_MASTER}"
+    
 istioctl x create-remote-secret \
     --context="${CTX}" \
     --name="${CTX}" | \
@@ -102,6 +111,16 @@ istioctl install --context="${CTX}" -y -f member/member.yaml
 member/gen-eastwest-gateway.sh \
     --mesh mesh-${CTX_MASTER}  --cluster $CTX --network network-$CTX | \
     istioctl --context=$CTX install -y -f -
+
+for ((;;))
+do
+        status=`kubectl --context=$CTX get svc istio-eastwestgateway -n istio-system | grep istio-eastwestgateway | awk '{print $4}'`
+        if [ "$status" != "<none>" ]; then
+                break
+        fi
+        echo "Wait LB IP Allocate"
+        sleep 1
+done
 
 # Expose services in cluster3
 kubectl --context="${CTX}" apply -n istio-system -f member/expose-services.yaml

@@ -12,7 +12,7 @@ spec:
       multiCluster:
         clusterName: eks-keti-cluster1
       network: network-eks-keti-cluster1
-      remotePilotAddress: 
+      remotePilotAddress: 115.94.141.62
   components:
     ingressGateways:
       - name: istio-ingressgateway

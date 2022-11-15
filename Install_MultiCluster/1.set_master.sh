@@ -7,7 +7,7 @@ kubectl --context="${CTX}" create namespace istio-system
 rm  -r /root/certs/root/
 mkdir -p /root/certs/root/
 pushd /root/certs/root/
-pushd /root/go/src/Hybrid_LCW/test/Istio/istio-installation/istio-1.12.2/tools/certs/
+pushd /root/workspace/cra/istio-1.13.2/tools/certs/
 
 make -f  Makefile.selfsigned.mk root-ca
 make -f Makefile.selfsigned.mk hcp-cacerts
@@ -97,3 +97,7 @@ kubectl apply --context="${CTX}" -n istio-system -f master/expose-istiod.yaml
 
 # Expose services in master
 kubectl --context="${CTX}" apply -n istio-system -f master/expose-services.yaml
+
+
+# Deploy CronJob for EKS (hostname -> IP)
+kubectl --context="${CTX}" apply -n istio-system -f master/patch_istio_openmcp.yaml
