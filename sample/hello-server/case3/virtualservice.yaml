@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vs-hello
+spec:
+  hosts:
+  - "svc-hello.default.svc.cluster.local"
+  http:
+  - match:
+    - uri:
+        prefix: /v2
+    route:
+    - destination:
+        host: "svc-hello-v2.default.svc.cluster.local"
+  - route:
+    - destination:
+        host: "svc-hello-v1.default.svc.cluster.local"
