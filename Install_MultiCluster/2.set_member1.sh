@@ -42,11 +42,6 @@ istioctl x create-remote-secret \
     --context="${CTX}" \
     --name="${CTX}" | \
     kubectl apply -f - --context="${CTX_MASTER}"
-    
-istioctl x create-remote-secret \
-    --context="${CTX}" \
-    --name="${CTX}" | \
-    kubectl apply -f - --context="${CTX_MASTER}"
 
 # Configure member as a remote
 export DISCOVERY_ADDRESS=$(kubectl \
@@ -127,7 +122,3 @@ done
 # Expose services in cluster3
 kubectl --context="${CTX}" apply -n istio-system -f member/expose-services.yaml
 
-istioctl x create-remote-secret \
-    --context="${CTX}" \
-    --name="${CTX}" | \
-    kubectl apply -f - --context="${CTX_MASTER}"

@@ -1,6 +1,6 @@
 #!/bin/bash
 CTX_MASTER="master"
-CTX="eks-keti-cluster1"
+CTX="eks-cluster"
 
 # uninstall istio
 istioctl x uninstall --purge -y --context "${CTX}"

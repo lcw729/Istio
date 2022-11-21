@@ -101,3 +101,6 @@ kubectl --context="${CTX}" apply -n istio-system -f master/expose-services.yaml
 
 # Deploy CronJob for EKS (hostname -> IP)
 kubectl --context="${CTX}" apply -n istio-system -f master/patch_istio_openmcp.yaml
+
+kubectl delete secret istio-remote-secret-cluster1-master -n istio-system --context="${CTX}"
+kubectl delete secret istio-remote-secret-eks-keti-cluster1 -n istio-system --context="${CTX}"
