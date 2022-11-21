@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: hcp-loadbalancer
+  namespace: hcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: hcp-loadbalancer
+  template:
+    metadata:
+      labels:
+        name: hcp-loadbalancer
+    spec:
+      serviceAccountName: hcp-loadbalancer
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: hcp-loadbalancer
+        image: ketidevit2/hcp-loadbalancer:v0.0.2
+        command:
+        - hcp-loadbalancer
+        imagePullPolicy: Always

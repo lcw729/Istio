@@ -1,0 +1,50 @@
+#!/bin/bash
+apiVersion: hcp.crd.com/v1alpha1
+kind: HCPDeployment
+metadata: 
+  name: bookinfo
+  namespace: hcp
+spec:
+  metadata:
+    labels:
+      app: productpage
+      uuid: "777"
+      version: v1
+    name: bookinfo
+  realDeploymentSpec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: productpage
+        uuid: "777"
+        version: v1
+    template:
+      metadata:
+        labels:
+          app: productpage
+          uuid: "777"
+          version: v1
+      spec:
+        serviceAccountName: bookinfo-productpage
+        containers:
+        - name: productpage
+          image: docker.io/istio/examples-bookinfo-productpage-v1:1.16.2
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 9080
+          volumeMounts:
+          - name: tmp
+            mountPath: /tmp
+          securityContext:
+            runAsUser: 1000
+        volumes:
+        - name: tmp
+          emptyDir: {}
+  shedulingcomplete: true
+  schedulingresult: 
+    targets:
+    - cluster: cluster1-master
+      replicas: 1
+    - cluster: eks-cluster
+      replicas: 1
+  uuid: "777"
