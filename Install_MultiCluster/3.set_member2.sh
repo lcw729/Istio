@@ -1,6 +1,6 @@
 #!/bin/bash
 CTX_MASTER="master"
-CTX="eks-keti-cluster1"
+CTX="eks-cluster"
 
 # uninstall istio
 istioctl x uninstall --purge -y --context "${CTX}"
@@ -37,10 +37,6 @@ kubectl --context="${CTX}" annotate namespace istio-system topology.istio.io/con
 kubectl delete secret istio-remote-secret-${CTX} -n istio-system --context "${CTX_MASTER}"
 
 # Enable API Server Access to member
-istioctl x create-remote-secret \
-    --context="${CTX}" \
-    --name="${CTX}" | \
-    kubectl apply -f - --context="${CTX_MASTER}"
     
 istioctl x create-remote-secret \
     --context="${CTX}" \

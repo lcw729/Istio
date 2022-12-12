@@ -10,8 +10,8 @@ spec:
     global:
       meshID: mesh-master
       multiCluster:
-        clusterName: eks-cluster
-      network: network-eks-cluster
+        clusterName: cluster1-master
+      network: network-cluster1-master
       remotePilotAddress: 115.94.141.62
   components:
     ingressGateways:
